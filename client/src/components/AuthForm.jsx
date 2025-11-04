@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    navigate('/dashboard');
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-black text-white px-6 overflow-hidden">
@@ -10,7 +17,7 @@ const AuthPage = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative w-full max-w-5xl h-[550px] rounded-3xl bg-slate-800/70 border border-slate-700 backdrop-blur-xl shadow-2xl overflow-hidden flex"
+        className="relative w-full max-w-5xl h-[550px] rounded-3xl bg-slate-800/70 border border-slate-700 backdrop-blur-3xl shadow-2xl overflow-hidden flex"
       >
         {/* SLIDING BLUE PANEL */}
         <motion.div
@@ -18,7 +25,8 @@ const AuthPage = () => {
             x: isSignUp ? "100%" : "0%",
           }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-br from-blue-700 via-blue-800 to-slate-900 z-20 flex flex-col justify-center items-center text-center px-8"
+          className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-br from-blue-700 via-blue-800 to-slate-900 
+          z-20 flex flex-col justify-center items-center text-center px-8"
         >
           <h2 className="text-3xl font-extrabold mb-4">
             {isSignUp ? "Join Us Today" : "Welcome Back!"}
@@ -92,6 +100,7 @@ const AuthPage = () => {
                 className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 outline-none"
               />
               <button
+              onClick={handleSubmit}
                 type="button"
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-all mt-2"
               >
