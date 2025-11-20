@@ -5,6 +5,7 @@ import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import AuthPage from './components/AuthForm'
 import Dashboard from './pages/Dashboard'
+import AdminDashboard from './pages/AdminDashboard'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/admin-dashboard' element={<AdminDashboard />} />
       </Routes>
     </Router>
   )

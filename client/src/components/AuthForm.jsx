@@ -5,10 +5,9 @@ import axios from "axios";
 
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
-
   const navigate = useNavigate();
 
-  // STATES FOR SIGN UP
+  // SIGN UP STATE
   const [signUpData, setSignUpData] = useState({
     firstName: "",
     lastName: "",
@@ -17,33 +16,59 @@ const AuthPage = () => {
     status: "pending",
   });
 
-  // HANDLE INPUT
+  // SIGN IN STATE
+  const [signInData, setSignInData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // HANDLE SIGN UP INPUTS
   const handleSignUpChange = (e) => {
     setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
   };
 
-  // SUBMIT SIGN UP
+  // HANDLE SIGN IN INPUTS
+  const handleSignInChange = (e) => {
+    setSignInData({ ...signInData, [e.target.name]: e.target.value });
+  };
+
+  // SIGN UP REQUEST
   const handleSignUpSubmit = async () => {
     try {
       const res = await axios.post(
         "http://localhost:5000/api/auth/signup",
-        signUpData, {withCredentials: true}
+        signUpData
       );
 
       alert(res.data.message);
-
-      // Optionally switch to sign-in screen after signup success
-      setIsSignUp(false);
+      setIsSignUp(false); // switch to SignIn
     } catch (err) {
-      console.error(err);
       alert(err.response?.data?.message || "Signup failed");
     }
   };
 
-  // SIGN IN SUBMIT (you can connect this later)
-  const handleSignIn = (e) => {
-    e.preventDefault();
-    navigate("/dashboard");
+  // SIGN IN REQUEST
+  const handleSignInSubmit = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/signin",
+        signInData
+      );
+
+      // ADMIN LOGIN
+      if (res.data.role === "admin") {
+        navigate("/admin-dashboard");
+        return;
+      }
+
+      // USER LOGIN
+      if (res.data.role === "user") {
+        navigate("/dashboard");
+        return;
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "Sign in failed");
+    }
   };
 
   return (
@@ -89,16 +114,13 @@ const AuthPage = () => {
           {/* SIGN UP FORM */}
           <div className="w-1/2 flex flex-col justify-center items-center p-10">
             <h2 className="text-3xl font-bold mb-6">Sign Up</h2>
-            <form
-              className="flex flex-col w-80 gap-4"
-              onSubmit={(e) => e.preventDefault()}
-            >
+            <form className="flex flex-col w-80 gap-4">
               <input
                 type="text"
                 name="firstName"
                 placeholder="First Name"
                 onChange={handleSignUpChange}
-                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400"
               />
 
               <input
@@ -106,7 +128,7 @@ const AuthPage = () => {
                 name="lastName"
                 placeholder="Last Name"
                 onChange={handleSignUpChange}
-                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400"
               />
 
               <input
@@ -114,7 +136,7 @@ const AuthPage = () => {
                 name="email"
                 placeholder="Email"
                 onChange={handleSignUpChange}
-                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400"
               />
 
               <input
@@ -122,7 +144,7 @@ const AuthPage = () => {
                 name="password"
                 placeholder="Password"
                 onChange={handleSignUpChange}
-                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400"
               />
 
               <button
@@ -142,18 +164,22 @@ const AuthPage = () => {
             <form className="flex flex-col w-80 gap-4">
               <input
                 type="email"
+                name="email"
                 placeholder="Email"
-                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 outline-none"
+                onChange={handleSignInChange}
+                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400"
               />
 
               <input
                 type="password"
+                name="password"
                 placeholder="Password"
-                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 outline-none"
+                onChange={handleSignInChange}
+                className="p-3 rounded-xl bg-slate-700 text-white placeholder-slate-400"
               />
 
               <button
-                onClick={handleSignIn}
+                onClick={handleSignInSubmit}
                 type="button"
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-all mt-2"
               >
