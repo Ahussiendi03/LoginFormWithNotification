@@ -1,6 +1,7 @@
 // LogoutModal.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { IoLogOutOutline } from "react-icons/io5";
 
 
 const LogoutModal = ({ isOpen, onClose, onConfirm }) => {
@@ -26,16 +27,16 @@ const LogoutModal = ({ isOpen, onClose, onConfirm }) => {
         <div className="flex justify-between">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-300 rounded-md text-black"
+            className="px-4 py-2 bg-gray-300 rounded-md text-black hover:bg-gray-500 border border-black"
           >
             Cancel
           </button>
 
           <button
             onClick={handleLogout}
-            className="px-4 py-2 bg-red-500 text-white rounded-md"
+            className="px-4 py-2 bg-red-500 text-white rounded-md flex gap-1 items-center hover:bg-red-700 border border-red-950"
           >
-            Logout
+            Logout <IoLogOutOutline />
           </button>
         </div>
       </div>
