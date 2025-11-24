@@ -72,18 +72,18 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-black text-white px-6 overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white px-6 overflow-hidden">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative w-full max-w-5xl h-[550px] rounded-3xl bg-slate-800/70 border border-slate-700 backdrop-blur-3xl shadow-2xl overflow-hidden flex"
+        className="relative w-full max-w-5xl h-[550px] rounded-3xl bg-white/10 border border-slate-700 backdrop-blur-3xl shadow-2xl overflow-hidden flex"
       >
         {/* BLUE SLIDING PANEL */}
         <motion.div
           animate={{ x: isSignUp ? "100%" : "0%" }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-br from-blue-700 via-blue-800 to-slate-900 
+          className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-br from-blue-950 via-blue-800 to-blue-950 
           z-20 flex flex-col justify-center items-center text-center px-8"
         >
           <h2 className="text-3xl font-extrabold mb-4">

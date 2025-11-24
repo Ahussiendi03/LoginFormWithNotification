@@ -20,7 +20,7 @@ const LogoutModal = ({ isOpen, onClose, onConfirm }) => {
     <div
       className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50"
     >
-      <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+      <div className="bg-white/40 p-6 rounded-lg shadow-lg w-80 text-center border border-slate-950 shadow-slate-900/60">
         <h2 className="text-lg font-semibold mb-4 text-black">Logout?</h2>
         <p className="mb-6 text-black">Are you sure you want to logout?</p>
 
