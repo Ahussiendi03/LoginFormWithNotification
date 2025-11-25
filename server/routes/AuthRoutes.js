@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const Admin = require("../models/Admin");
 const bcrypt = require("bcryptjs");
+const { sendEmail } = require("../services/emailService");
 
 // USER SIGN UP
 router.post("/signup", async (req, res) => {
@@ -103,5 +104,65 @@ router.post("/signin", async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
+
+// GET ALL PENDING USERS
+router.get("/pending-users", async (req, res) => {
+  try {
+    const users = await User.find({ status: "pending" })
+    res.status(200).json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.post("/admin/approve-user/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.status = "approved";
+    await user.save();
+
+    const emailSent = await sendEmail(
+      user.email,
+      "Account Approved",
+      `<h2>Hi ${user.firstName},</h2><p>Your account has been <b>approved</b> by the admin!</p>`
+    );
+
+    if (!emailSent) {
+      return res.status(500).json({ message: "Approval email failed" });
+    }
+
+    res.json({ message: "User approved and email sent" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.post("/admin/reject-user/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.status = "rejected";
+    await user.save();
+
+    // Send rejection email
+    await sendEmail(
+      user.email,
+      "Account Rejected",
+      `<h2>Hi ${user.firstName},</h2>
+       <p>We're sorry, but your account has been <b>rejected</b> by the admin.</p>`
+    );
+
+    res.json({ message: "User rejected and email sent" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 
 module.exports = router;
