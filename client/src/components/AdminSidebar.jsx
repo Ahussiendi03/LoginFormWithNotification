@@ -1,5 +1,5 @@
 import React, { useState  } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import LogoutModal from "./LogOutModal";
 import {
   FaUserClock,
@@ -11,8 +11,6 @@ import {
 const AdminSidebar = () => {
   const navigate = useNavigate();
   const [OpenLogoutModal, setOpenLogoutModal] = useState(false);
-
-  // LOGOUT FUNCTION
   
 
   return (
@@ -20,9 +18,13 @@ const AdminSidebar = () => {
       <h2 className="text-2xl font-bold mb-10">Admin Panel</h2>
 
       <nav className="flex flex-col gap-4">
-        <a className="flex items-center gap-3 hover:bg-slate-700 p-3 rounded-lg cursor-pointer">
+        <Link to="/admin-dashboard" className="flex items-center gap-3 hover:bg-slate-700 p-3 rounded-lg cursor-pointer">
+          <FaUserClock /> Dashboard
+        </Link>
+
+        <Link to="/pending-users" className="flex items-center gap-3 hover:bg-slate-700 p-3 rounded-lg cursor-pointer">
           <FaUserClock /> Pending Users
-        </a>
+        </Link>
 
         <a className="flex items-center gap-3 hover:bg-slate-700 p-3 rounded-lg cursor-pointer">
           <FaUsers /> Approved Users
